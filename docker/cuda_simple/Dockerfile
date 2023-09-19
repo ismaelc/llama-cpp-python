@@ -32,4 +32,4 @@ RUN cd llama-cpp-python && \
 RUN CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python
 
 # Run the server
-CMD python3 -m llama_cpp.server
+ENTRYPOINT python3 -m llama_cpp.server
