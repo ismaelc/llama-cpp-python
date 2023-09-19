@@ -11,7 +11,7 @@ RUN apt-get update && apt-get upgrade -y \
     libclblast-dev libopenblas-dev \
     && mkdir -p /etc/OpenCL/vendors && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
-COPY . .
+# COPY . .
 
 # setting build related env vars
 ENV CUDA_DOCKER_ARCH=all
@@ -19,6 +19,14 @@ ENV LLAMA_CUBLAS=1
 
 # Install depencencies
 RUN python3 -m pip install --upgrade pip pytest cmake scikit-build setuptools fastapi uvicorn sse-starlette pydantic-settings starlette-context
+
+RUN apt install -y git && git clone https://github.com/ismaelc/llama-cpp-python
+RUN cd llama-cpp-python && \
+    git submodule update --init --recursive && \
+    cd vendor/llama.cpp/ && \
+    make LLAMA_CUBLAS=1 -j8 && \
+    cd ../../ && \
+    CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install . --no-cache-dir
 
 # Install llama-cpp-python (build with cuda)
 RUN CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python
