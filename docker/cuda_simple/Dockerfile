@@ -20,7 +20,7 @@ ENV LLAMA_CUBLAS=1
 # Install depencencies
 RUN python3 -m pip install --upgrade pip pytest cmake scikit-build setuptools fastapi uvicorn sse-starlette pydantic-settings starlette-context
 
-RUN apt install -y git && git clone https://github.com/ismaelc/llama-cpp-python
+RUN apt install -y git && git clone https://github.com/billcai/llama-cpp-python
 RUN cd llama-cpp-python && \
     git submodule update --init --recursive && \
     cd vendor/llama.cpp/ && \
