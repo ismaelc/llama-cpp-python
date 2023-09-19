@@ -28,8 +28,5 @@ RUN cd llama-cpp-python && \
     cd ../../ && \
     CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install . --no-cache-dir
 
-# Install llama-cpp-python (build with cuda)
-RUN CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python
-
 # Run the server
 ENTRYPOINT python3 -m llama_cpp.server
